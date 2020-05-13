@@ -11,6 +11,16 @@ import {
 } from "react-native";
 
 export default function App() {
+  // const [projects, setProjects] = useState([]);
+
+  // //Listando os projetos da API através do useEffect
+  // useEffect(() => {
+  //   api.get('projects').then(response => {      
+  //     setProjects(response.data);
+  //   });
+  // }, []);
+
+
   async function handleLikeRepository(id) {
     // Implement "Like Repository" functionality
   }
@@ -18,7 +28,30 @@ export default function App() {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#7159c1" />
+      
+
       <SafeAreaView style={styles.container}>
+      {/* Começo FlatList */}
+      {/* <FlatList
+        style={styles.repositoryContainer}
+        data={repositories}
+        keyExtractor={repository => repository.id}
+        renderItem={({ item : repository }) => (
+        <View>
+          <Text style={styles.repository}>{repository.title}</Text>
+          <View style={styles.techsContainer}>
+            <Text style={styles.techs}>{repository.techs}</Text>
+          </View>
+          <View style={styles.likesContainer}>
+            <Text style={styles.likeText}>{repository.likes}</Text>
+          </View>
+
+        </View>
+      )}
+      /> */}
+      {/* Fim Flatlist */}
+
+          {/* Código padrão */}
         <View style={styles.repositoryContainer}>
           <Text style={styles.repository}>Repository 1</Text>
 
@@ -41,6 +74,7 @@ export default function App() {
             </Text>
           </View>
 
+          {/* --Botão de curtidas-- */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleLikeRepository(1)}
@@ -49,7 +83,9 @@ export default function App() {
           >
             <Text style={styles.buttonText}>Curtir</Text>
           </TouchableOpacity>
+          {/* -- FIM Botão de curtidas-- */}
         </View>
+        {/* Fim código padrão */}
       </SafeAreaView>
     </>
   );
