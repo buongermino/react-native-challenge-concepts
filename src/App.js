@@ -34,16 +34,22 @@ export default function App() {
       <SafeAreaView style={styles.container}>
       {/* Começo FlatList */}
       <FlatList
-        style={styles.repositoryContainer}
+        // style={styles.repositoryContainer}
         data={repositories}
         keyExtractor={repository => repository.id}
         renderItem={( { item : repository }) => (
-              <View>
-                <Text style={styles.repository}>{repository.title}</Text>
-                <View style={styles.techsContainer}>
-                  {repositories.map(repository =>                  
-                    <Text key={repository.id} style={styles.tech}>{repository.techs}</Text> )}                    
-                </View>
+          <View style={styles.repositoryContainer}>
+          <Text style={styles.repository}>{repository.title}</Text>
+
+            
+            <View style={styles.techsContainer}>            
+            {repository.techs.map(tech => { 
+              return (                                               
+                <Text key={tech} style={styles.tech}>{tech}</Text>
+                )}
+            )}
+            </View>                                 
+                
 
                 <View style={styles.likesContainer}>
                   <Text style={styles.likeText}>{repository.likes}</Text>
@@ -108,8 +114,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   button: {
-    marginTop: 10,
-    marginBottom: 30,
+    marginTop: 10,    
   },
   buttonText: {
     fontSize: 14,
