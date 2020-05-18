@@ -23,13 +23,25 @@ export default function App() {
   }, []);
 
 
-  async function handleLikeRepository(id) {
-    // Implement "Like Repository" functionality
+  async function handleLikeRepository(id) {    
+    const response = await api.post(`repositories/${ id }/like`);
+    
+    likedRepository = response.data;
+
+    const repositoriesUpdated = repositories.map(repository => {
+      if (repository.id === id) {
+        return likedRepository;
+      }
+      else {
+        return repository;
+      }
+    });
+    setRepositories(repositoriesUpdated);
   }
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor="#7159c1" />      
+      <StatusBar barStyle="light-content" backgroundColor="#0f1717" />      
 
       <SafeAreaView style={styles.container}>
       {/* Começo FlatList */}
@@ -44,21 +56,25 @@ export default function App() {
             
             <View style={styles.techsContainer}>            
             {repository.techs.map(tech => { 
-              return (                                               
+              return (    //pra cada elemento no array, retorna um texto com o nome da tech                         
                 <Text key={tech} style={styles.tech}>{tech}</Text>
                 )}
             )}
             </View>                                 
                 
-
+                {/* --Curtidas-- */}      
                 <View style={styles.likesContainer}>
-                  <Text style={styles.likeText}>{repository.likes}</Text>
+                  <Text 
+                  style={styles.likeText}
+                  testID={`repository-likes-${repository.id}`}                  
+                  >
+                    {repository.likes} curtida{repository.likes > 1 ? 's' : ''}</Text>
                 </View>
 
                     {/* --Botão de curtidas-- */}                    
                     <TouchableOpacity
                       style={styles.button}
-                      onPress={() => handleLikeRepository(1)}
+                      onPress={() => handleLikeRepository(repository.id)}
                       // Remember to replace "1" below with repository ID: {`like-button-${repository.id}`}
                       testID={`like-button-${repository.id}`}
                     >
@@ -78,26 +94,29 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#7159c1",
+    backgroundColor: "#0f1717",
   },
   repositoryContainer: {
     marginBottom: 15,
     marginHorizontal: 15,
-    backgroundColor: "#fff",
+    backgroundColor: "#1a2626",
     padding: 20,
   },
   repository: {
     fontSize: 32,
     fontWeight: "bold",
+    color: '#FFF'
   },
   techsContainer: {
     flexDirection: "row",
-    marginTop: 10,
+    marginTop: 10,    
+    flexWrap: "wrap"
   },
   tech: {
     fontSize: 12,
     fontWeight: "bold",
     marginRight: 10,
+    marginBottom: 10,
     backgroundColor: "#04d361",
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -111,6 +130,7 @@ const styles = StyleSheet.create({
   likeText: {
     fontSize: 14,
     fontWeight: "bold",
+    color: '#fff',
     marginRight: 10,
   },
   button: {
@@ -121,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginRight: 10,
     color: "#fff",
-    backgroundColor: "#7159c1",
+    backgroundColor: "#003da3",
     padding: 15,
   },
 });
